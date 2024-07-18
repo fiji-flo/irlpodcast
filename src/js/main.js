@@ -38,6 +38,22 @@ if (typeof window.dataLayer === 'undefined') {
             'data-podcast-title': $parent.data('episode-title'),
             'event': 'listen-with'
         });
+
+        if (
+            "privateAttribution" in navigator &&
+            "measureConversion" in navigator.privateAttribution
+          ) {
+            try {
+                navigator.privateAttribution.measureConversion({
+                    task: "task_id", // Unique task ID. Supplied by Mozilla.
+                    histogramSize: 5, // Supplied by Mozilla
+                    lookbackDays: 60, // Number of days to look back for attribution
+                    impression: "view", // Attribution model to use
+                    ads: ["moz-mdn-test-1"], // List Ad IDs. Supplied by Mozilla.
+                    sources: ["irlpodcast.org"], // List of publisher domains
+                });
+            } catch {}
+        }
     });
 
     // track share clicks
